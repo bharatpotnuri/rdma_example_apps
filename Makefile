@@ -13,6 +13,10 @@ APPS = rping #\
 	udaddy \
 	udpong
 
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local
+endif
+
 EXTRA_HEADERS = 
 
 all: ${APPS} 
@@ -29,5 +33,10 @@ ${APPS} ${UTILS}: %: %.c ${EXTRA_FILES} ${EXTRA_HEADERS}
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $< ${EXTRA_FILES} $(LOADLIBES) -o $@ -L.
 clean:
 	rm -f ${APPS} ${UTILS} *.o
+install:
+	install -m 755 rping $(PREFIX)/bin
+uninstall:
+	rm -f $(PREFIX)/bin/rping
+
 .DELETE_ON_ERROR:
 .PHONY: all clean
